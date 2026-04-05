@@ -18,7 +18,7 @@ import { apiClient } from "./client";
  *   session_id?: string
  * }} payload
  * @returns {Promise<{
- *   emosi: "senang"|"netral"|"bingung"|"sedih"|"marah",
+ *   emosi: "engagement"|"boredom"|"confusion"|"frustration",
  *   confidence: number,       // 0.0 - 1.0
  *   timestamp: string
  * }>}

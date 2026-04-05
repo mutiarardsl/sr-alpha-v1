@@ -9,9 +9,6 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useAdmin } from '../../context/AdminContext';
 import { C } from '../../styles/tokens';
-import {
-  ADMIN_MAPEL_LIST, ADMIN_GURU_INIT, ADMIN_KELAS_INIT, ADMIN_SISWA_INIT,
-} from '../../data/masterData';
 
 // ── Inline section components (AdminView sections are deeply stateful — keep close) ──
 // Sections access adminCtx object; complex drawers/modals stay in AdminView for now.
@@ -49,16 +46,6 @@ const MultiCheckbox = ({items,selected,onChange,labelKey='label',idKey='id'}) =>
   </div>
 );
 
-const ADMIN_MAPEL_LIST_LOCAL = [
-  {id:'mat',label:'Matematika',icon:'📐',color:'#0D5C63'},
-  {id:'ipa',label:'IPA',icon:'🔬',color:'#DD6B20'},
-  {id:'bin',label:'B. Indonesia',icon:'📖',color:'#6B46C1'},
-  {id:'ips',label:'IPS',icon:'🌍',color:'#2F855A'},
-  {id:'eng',label:'B. Inggris',icon:'🌐',color:'#2B6CB0'},
-  {id:'pjok',label:'PJOK',icon:'⚽',color:'#C05621'},
-  {id:'seni',label:'Seni Budaya',icon:'🎨',color:'#B7791F'},
-  {id:'ppkn',label:'PPKn',icon:'🇮🇩',color:'#9B2C2C'},
-];
 
 const AdminView = () => {
   const navigate = useNavigate();
@@ -88,7 +75,7 @@ const AdminView = () => {
 
   const getKelas = (id) => kelasList.find(k=>k.id===id);
   const getGuru  = (id) => guruList.find(g=>g.id===id);
-  const getMapel = (id) => (ADMIN_MAPEL_LIST_LOCAL).find(m=>m.id===id);
+  const getMapel = (id) => mapelList.find(m=>m.id===id);
   const getSiswaOfKelas = (kelasId) => siswaList.filter(s=>s.kelasId===kelasId);
 
   const emptyGuru  = {nama:'',nip:'',email:'',mapelIds:[],kelasIds:[],status:'Aktif',bergabung:'',avatar:'',avatarBg:`linear-gradient(135deg,#0D5C63,#1A8A94)`};
@@ -123,7 +110,7 @@ const AdminView = () => {
   };
 
   const adminCtx = {
-    guruList, siswaList, kelasList, mapelList: ADMIN_MAPEL_LIST_LOCAL,
+    guruList, siswaList, kelasList, mapelList,
     setGuruList, setSiswaList, setKelasList, setMapelList,
     saveGuru, saveSiswa, deleteSiswa, saveKelas, saveMapel, deleteMapel,
     modal, setModal, modalData, setModalData,

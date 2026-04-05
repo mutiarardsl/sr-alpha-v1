@@ -81,15 +81,15 @@ const MonitoringSection = ({
     : 0;
 
   /* Distribusi emosi */
-  const emotionToday = { senang: 0, netral: 0, bingung: 0, sedih: 0 };
+  const emotionToday = { engagement: 0, boredom: 0, confusion: 0, frustration: 0 };
   aktifHariIni.forEach(s => { if (emotionToday[s.emotionKey] !== undefined) emotionToday[s.emotionKey]++; });
   const emotionMax = Math.max(...Object.values(emotionToday), 1);
 
   const EMOSI_META = {
-    senang: { emoji: '😊', label: 'Senang', color: C.green },
-    netral: { emoji: '😐', label: 'Netral', color: C.slate },
-    bingung: { emoji: '😵', label: 'Bingung', color: C.amber },
-    sedih: { emoji: '😢', label: 'Sedih', color: C.purple },
+    engagement: { emoji: '🟢', label: 'Engagement', color: C.green },
+    boredom: { emoji: '😴', label: 'Boredom', color: C.slate },
+    confusion: { emoji: '😵', label: 'Confusion', color: C.amber },
+    frustration: { emoji: '😤', label: 'Frustration', color: C.red },
   };
 
 
@@ -203,7 +203,6 @@ const MonitoringSection = ({
                                 <div style={{ fontSize: 9, color: C.slate }}>{st.todayTopik}</div>
                               )}
                             </div>
-                            {live && <span style={{ width: 6, height: 6, borderRadius: '50%', background: live.aktif ? C.green : C.slate, flexShrink: 0, animation: live.aktif ? 'pulse 1.5s infinite' : 'none' }} />}
                           </div>
                         </td>
 
@@ -289,7 +288,7 @@ const MonitoringSection = ({
                 </div>
                 <button onClick={() => { setRecModal(st.id); setRecText(recommendations[st.id] || ''); }}
                   style={{ background: C.amberL, border: 'none', borderRadius: 6, padding: '3px 7px', fontSize: 10, color: C.orange, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', flexShrink: 0 }}>
-                  Rekomen
+                  Rec
                 </button>
               </div>
             ))

@@ -19,7 +19,7 @@ const SearchSection = ({
   searchGenerating, setSearchGenerating,
   searchGenDone, setSearchGenDone,
 }) => {
-  const popularTopics = ['Persamaan Linear', 'Ekosistem', 'Teks Argumentasi', 'Kerajaan Majapahit', 'Hukum Newton', 'Statistika', 'Trigonometri'];
+  const popularTopics = ['Persamaan Linear', 'Ekosistem', 'Teks Argumentasi', 'Genetika', 'Hukum Newton', 'Statistika', 'Trigonometri'];
   const allDoneKeys = new Set([...progressData.sudahSelesai, ...progressData.belumSelesai].map(m => makeKey(m.mapelId, m.subMateri)));
   const unstarted = RECOMMENDED_MATERIALS.filter(m => !allDoneKeys.has(makeKey(m.mapelId, m.subMateri)));
 
@@ -52,7 +52,7 @@ const SearchSection = ({
           {!searchGenDone ? (
             <>
               <div style={{ background: C.cream, borderRadius: 10, padding: '12px 14px', marginBottom: 16 }}>
-                <div style={{ fontSize: 11, fontWeight: 700, color: C.teal, marginBottom: 6 }}>🤖 Tim 3 RAG akan menyiapkan:</div>
+                <div style={{ fontSize: 11, fontWeight: 700, color: C.teal, marginBottom: 6 }}>🤖 Konten yang akan disiapkan:</div>
                 {['Materi pengantar disesuaikan profil belajar', 'Sesi chat interaktif dengan Mentor AI', 'Konten visual (mind map, flashcard)', 'Latihan soal untuk mengukur pemahaman'].map(item => (
                   <div key={item} style={{ display: 'flex', gap: 7, fontSize: 12, color: C.darkL, alignItems: 'flex-start', marginBottom: 4 }}>
                     <span style={{ color: C.teal, flexShrink: 0, marginTop: 1 }}>✓</span>{item}
@@ -94,7 +94,7 @@ const SearchSection = ({
         </div>
         <div style={{ position: 'relative', marginBottom: 20 }}>
           <input value={searchQ} onChange={e => { setSearchQ(e.target.value); doSearch(e.target.value); }}
-            placeholder="Cari topik... (contoh: trigonometri, fotosintesis, peradaban mesir)"
+            placeholder="Cari topik... (contoh: trigonometri, fotosintesis, sistem periodik)"
             style={{ width: '100%', padding: '13px 16px 13px 46px', borderRadius: 12, fontSize: 14, border: `2px solid ${C.tealXL}`, outline: 'none', background: C.white, transition: 'border .2s' }}
             onFocus={e => e.target.style.borderColor = C.teal} onBlur={e => e.target.style.borderColor = C.tealXL} />
           <span style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', fontSize: 18 }}>🔍</span>

@@ -14,12 +14,17 @@ import { Btn, Card, ProgressBar } from '../components/shared/UI';
 import { SUBJECTS, PRETEST_QUESTIONS } from '../data/masterData';
 
 const MAPEL_META = {
-  mat: { label: 'Matematika', icon: '📐', color: C.teal, desc: 'Aljabar, Persamaan, Statistika, dll.' },
-  ipa: { label: 'IPA', icon: '🔬', color: C.orange, desc: 'Ekosistem, Sel, Fisika, Kimia, dll.' },
-  bin: { label: 'B. Indonesia', icon: '📖', color: C.purple, desc: 'Teks, Puisi, Surat, Debat, dll.' },
-  ips: { label: 'IPS', icon: '🌍', color: C.green, desc: 'Sejarah, Geografi, Ekonomi, dll.' },
+  mat: { label: 'Matematika', icon: '📐', color: C.teal },
+  fis: { label: 'Fisika', icon: '⚛️', color: C.orange },
+  kim: { label: 'Kimia', icon: '🧪', color: '#805AD5' },
+  bio: { label: 'Biologi', icon: '🧬', color: C.green },
+  bin: { label: 'B. Indonesia', icon: '📖', color: C.purple },
+  eng: { label: 'B. Inggris', icon: '🌐', color: '#3182CE' },
+  ppkn: { label: 'PPKn', icon: '🏛️', color: C.red },
+  pjok: { label: 'PJOK', icon: '⚽', color: C.green },
+
 };
-const MAPEL_IDS = ['mat', 'ipa', 'bin', 'ips'];
+const MAPEL_IDS = ['mat', 'fis', 'kim', 'bio', 'bin', 'eng', 'ppkn', 'pjok'];
 
 const buildSoalList = (selectedMapels) => {
   const list = [];
@@ -98,7 +103,7 @@ export default function PretestPage() {
 
   /* ── TAHAP 1: PILIH MAPEL ─────────────────────────────────── */
   if (stage === 'select') return (
-    <div style={{ minHeight: '100vh', background: `linear-gradient(160deg,${C.teal}18,${C.cream} 40%)`, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
+    <div style={{ minHeight: '100vh', background: `linear-gradient(160deg,${C.teal}18,${C.cream} 40%)`, display: 'flex', alignItems: 'flex-start', overflowY: 'auto', justifyContent: 'center', padding: 24 }}>
       <div className="bounce-in" style={{ maxWidth: 540, width: '100%' }}>
 
         <div style={{ textAlign: 'center', marginBottom: 28 }}>
@@ -112,7 +117,7 @@ export default function PretestPage() {
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 20 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 12, marginBottom: 20 }}>
           {MAPEL_IDS.map(mid => {
             const m = MAPEL_META[mid];
             const selected = selectedMapels.includes(mid);

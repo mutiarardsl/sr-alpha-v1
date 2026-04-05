@@ -1,106 +1,157 @@
 import { C } from '../styles/tokens.js'
 
 // ─── Subjects ──────────────────────────────────────────────────────
-export const SUBJECTS = [
-  { id: "mat", label: "Matematika", icon: "📐", color: C.teal, subs: ["Aljabar Dasar", "Persamaan Linear", "Fungsi Kuadrat", "Statistika"] },
-  { id: "ipa", label: "IPA", icon: "🔬", color: C.orange, subs: ["Ekosistem", "Sel & Jaringan", "Gerak Lurus", "Energi & Kalor"] },
-  { id: "bin", label: "B. Indonesia", icon: "📖", color: C.purple, subs: ["Teks Argumentasi", "Puisi", "Surat Dinas", "Debat"] },
-  { id: "ips", label: "IPS", icon: "🌍", color: C.green, subs: ["Peradaban Awal", "Kerajaan Nusantara", "Ekonomi Dasar", "Geografi"] },
-]
+// ADMIN_MAPEL_LIST is the single source of truth for mapel metadata.
+// Dibagi per penjurusan: MIPA, SOSIAL, dan UMUM (lintas jurusan).
+// SUBJECTS derives from it to guarantee color/label consistency.
+
+export const ADMIN_MAPEL_LIST_MIPA = [
+  { id: "mat", label: "Matematika", icon: "📐", color: "#319795", jurusan: "MIPA" }, // teal
+  { id: "fis", label: "Fisika", icon: "⚛️", color: "#DD6B20", jurusan: "MIPA" }, // orange
+  { id: "kim", label: "Kimia", icon: "🧪", color: "#805AD5", jurusan: "MIPA" }, // purple
+  { id: "bio", label: "Biologi", icon: "🧬", color: "#38A169", jurusan: "MIPA" }, // green
+];
+
+export const ADMIN_MAPEL_LIST_SOSIAL = [
+  { id: "geo", label: "Geografi", icon: "🗺️", color: "#2B6CB0", jurusan: "SOSIAL" }, // blue
+  { id: "eko", label: "Ekonomi", icon: "💰", color: "#D69E2E", jurusan: "SOSIAL" }, // yellow
+  { id: "sos", label: "Sosiologi", icon: "👥", color: "#718096", jurusan: "SOSIAL" }, // gray
+  { id: "ant", label: "Antropologi", icon: "🗿", color: "#A0522D", jurusan: "SOSIAL" }, // brown
+];
+
+// Mapel lintas jurusan (wajib semua penjurusan)
+export const ADMIN_MAPEL_LIST_UMUM = [
+  { id: "bin", label: "B. Indonesia", icon: "📖", color: "#9B2C2C", jurusan: "UMUM" }, // red
+  { id: "eng", label: "B. Inggris", icon: "🌐", color: "#3182CE", jurusan: "UMUM" }, // blue alt
+  { id: "ppkn", label: "PPKn", icon: "🏛️", color: "#C53030", jurusan: "UMUM" }, // civic
+  { id: "pjok", label: "PJOK", icon: "⚽", color: "#2F855A", jurusan: "UMUM" }, // sport
+  { id: "cod", label: "Coding", icon: "💻", color: "#2D3748", jurusan: "UMUM" }, // tech
+];
+
+// Flat list (seluruh mapel) — tetap diekspor agar komponen lama tidak perlu diubah
+export const ADMIN_MAPEL_LIST = [
+  ...ADMIN_MAPEL_LIST_MIPA,
+  ...ADMIN_MAPEL_LIST_SOSIAL,
+  ...ADMIN_MAPEL_LIST_UMUM,
+];
+
+// SUBJECTS = mapel IPA dengan sub-topik (student-facing UI, disesuaikan kelas X IPA)
+const SUBJECT_SUBS = {
+  mat: [
+    "Aljabar",
+    "Persamaan & Pertidaksamaan",
+    "Fungsi & Grafik",
+    "Statistika & Peluang"
+  ],
+  fis: [
+    "Gerak Lurus",
+    "Hukum Newton",
+    "Usaha & Energi",
+    "Gelombang & Optik"
+  ],
+  kim: [
+    "Struktur Atom",
+    "Sistem Periodik",
+    "Reaksi Kimia",
+    "Stoikiometri"
+  ],
+  bio: [
+    "Sel & Jaringan",
+    "Sistem Organ",
+    "Genetika",
+    "Ekosistem"
+  ],
+  bin: [
+    "Teks Argumentasi",
+    "Puisi & Prosa",
+    "Surat Dinas",
+    "Debat"
+  ],
+}
+
+export const SUBJECTS = ADMIN_MAPEL_LIST
+  .filter(m => SUBJECT_SUBS[m.id])
+  .map(m => ({ ...m, subs: SUBJECT_SUBS[m.id] }))
 
 export const TEACHERS = [
-  { id: "t1", name: "Sri Dewi, S.Pd.", initials: "SD", mapelId: "ipa", bg: `linear-gradient(135deg,${C.amber},${C.orange})` },
+  { id: "t1", name: "Sri Dewi, S.Pd.", initials: "SD", mapelId: "fis", bg: `linear-gradient(135deg,${C.amber},${C.orange})` },
   { id: "t2", name: "Bpk. Hendra, M.Pd.", initials: "BH", mapelId: "mat", bg: `linear-gradient(135deg,${C.teal},${C.tealL})` },
   { id: "t3", name: "Ibu Ratna, S.Pd.", initials: "IR", mapelId: "bin", bg: `linear-gradient(135deg,${C.purple},#9B72DB)` },
-  { id: "t4", name: "Bpk. Yoga, S.Pd.", initials: "BY", mapelId: "ips", bg: `linear-gradient(135deg,${C.green},#48BB78)` },
+  { id: "t4", name: "Bpk. Yoga, S.Pd.", initials: "BY", mapelId: "eko", bg: `linear-gradient(135deg,${C.green},#48BB78)` },
 ]
 
 export const SEEDED_TEACHER_ID = "t2"
 
 export const CLASSES = [
   { id: "10ipa1", label: "Kelas X IPA 1", count: 32 },
-  { id: "10ips2", label: "Kelas X IPS 2", count: 30 },
-  { id: "11ipa3", label: "Kelas XI IPA 3", count: 28 },
+  { id: "10ips2", label: "Kelas X IPS 1", count: 30 },
+  { id: "10ipa3", label: "Kelas X IPA 3", count: 28 },
 ]
 
+// Emotion keys: "engagement" | "boredom" | "confusion" | "frustration"
 export const STUDENTS = [
   {
-    id: 1, name: "Ahmad Fauzi", avatar: "AF", avatarBg: "#E53E3E", emotion: "😵 Bingung", emotionKey: "bingung",
+    id: "s1", name: "Ahmad Fauzi", avatar: "AF", avatarBg: "#E53E3E", emotion: "😵 Confusion", emotionKey: "confusion",
     status: "Perhatian", lastActive: "4 hari lalu",
     todayActive: false, todayStudyHours: null, todayQuizScore: null, todayQuizTotal: null, todayTopik: null,
-    chatProgress: { mat: 15, ipa: 20, bin: 35, ips: 25 }, quizScores: { mat: [30, 40], ipa: [], bin: [60], ips: [] }, sessions: 3,
     riwayat: [
-      { tanggal: "Senin, 10 Mar 2026", topik: "Aljabar Dasar", durasi: 0.5, quiz: 30, quizTotal: 10, emosi: "😵 Bingung" },
-      { tanggal: "Rabu, 5 Mar 2026", topik: "Persamaan Linear", durasi: 0.7, quiz: 40, quizTotal: 10, emosi: "😵 Bingung" },
+      { tanggal: "Senin, 10 Mar 2026", topik: "Aljabar Dasar", durasi: 0.5, quiz: 30, quizTotal: 10, emosi: "😵 Confusion" },
+      { tanggal: "Rabu, 5 Mar 2026", topik: "Persamaan Linear", durasi: 0.7, quiz: 40, quizTotal: 10, emosi: "😵 Confusion" },
     ]
   },
   {
-    id: 2, name: "Dewi Rahayu", avatar: "DR", avatarBg: C.teal, emotion: "😊 Senang", emotionKey: "senang",
+    id: "s2", name: "Dewi Rahayu", avatar: "DR", avatarBg: C.teal, emotion: "🟢 Engagement", emotionKey: "engagement",
     status: "Normal", lastActive: "Hari ini 13:45",
-    todayActive: true, todayStudyHours: 2.5, todayQuizScore: 8, todayQuizTotal: 10, todayTopik: "Fungsi Kuadrat",
-    chatProgress: { mat: 85, ipa: 80, bin: 95, ips: 75 }, quizScores: { mat: [80, 90, 85], ipa: [75, 80], bin: [95], ips: [70] }, sessions: 18,
+    todayActive: true, todayStudyHours: 2.0, todayQuizScore: 8, todayQuizTotal: 10, todayTopik: "Fungsi Kuadrat",
     riwayat: [
-      { tanggal: "Senin, 16 Mar 2026", topik: "Fungsi Kuadrat", durasi: 2.5, quiz: 8, quizTotal: 10, emosi: "😊 Senang" },
-      { tanggal: "Jumat, 14 Mar 2026", topik: "Statistika", durasi: 1.8, quiz: 9, quizTotal: 10, emosi: "😊 Senang" },
-      { tanggal: "Kamis, 13 Mar 2026", topik: "Persamaan Linear", durasi: 2.0, quiz: 8, quizTotal: 10, emosi: "😐 Netral" },
+      { tanggal: "Senin, 16 Mar 2026", topik: "Fungsi Kuadrat", durasi: 2.5, quiz: 8, quizTotal: 10, emosi: "🟢 Engagement" },
+      { tanggal: "Jumat, 14 Mar 2026", topik: "Statistika", durasi: 1.8, quiz: 9, quizTotal: 10, emosi: "🟢 Engagement" },
+      { tanggal: "Kamis, 13 Mar 2026", topik: "Persamaan Linear", durasi: 2.0, quiz: 8, quizTotal: 10, emosi: "😴 Boredom" },
     ]
   },
   {
-    id: 3, name: "Rizki Pratama", avatar: "RP", avatarBg: C.amber, emotion: "😢 Sedih", emotionKey: "sedih",
+    id: "s3", name: "Rizki Pratama", avatar: "RP", avatarBg: C.amber, emotion: "😤 Frustration", emotionKey: "frustration",
     status: "Perhatian", lastActive: "3 hari lalu",
     todayActive: false, todayStudyHours: null, todayQuizScore: null, todayQuizTotal: null, todayTopik: null,
-    chatProgress: { mat: 20, ipa: 15, bin: 30, ips: 18 }, quizScores: { mat: [40, 35], ipa: [30], bin: [45], ips: [] }, sessions: 5,
     riwayat: [
-      { tanggal: "Jumat, 13 Mar 2026", topik: "Persamaan Linear", durasi: 0.6, quiz: 4, quizTotal: 10, emosi: "😢 Sedih" },
-      { tanggal: "Rabu, 11 Mar 2026", topik: "Aljabar Dasar", durasi: 0.5, quiz: 3, quizTotal: 10, emosi: "😵 Bingung" },
+      { tanggal: "Jumat, 13 Mar 2026", topik: "Persamaan Linear", durasi: 0.6, quiz: 4, quizTotal: 10, emosi: "😤 Frustration" },
+      { tanggal: "Rabu, 11 Mar 2026", topik: "Aljabar Dasar", durasi: 0.5, quiz: 3, quizTotal: 10, emosi: "😵 Confusion" },
     ]
   },
   {
-    id: 4, name: "Siti Nurhaliza", avatar: "SN", avatarBg: C.purple, emotion: "😊 Senang", emotionKey: "senang",
+    id: "s4", name: "Siti Nurhaliza", avatar: "SN", avatarBg: C.purple, emotion: "🟢 Engagement", emotionKey: "engagement",
     status: "Normal", lastActive: "Hari ini 14:30",
-    todayActive: true, todayStudyHours: 3.0, todayQuizScore: 10, todayQuizTotal: 10, todayTopik: "Statistika",
-    chatProgress: { mat: 95, ipa: 100, bin: 100, ips: 90 }, quizScores: { mat: [95, 100], ipa: [90, 95, 100], bin: [100], ips: [88] }, sessions: 24,
+    todayActive: true, todayStudyHours: 1.5, todayQuizScore: 10, todayQuizTotal: 10, todayTopik: "Statistika",
     riwayat: [
-      { tanggal: "Senin, 16 Mar 2026", topik: "Statistika", durasi: 3.0, quiz: 10, quizTotal: 10, emosi: "😊 Senang" },
-      { tanggal: "Jumat, 14 Mar 2026", topik: "Fungsi Kuadrat", durasi: 2.5, quiz: 10, quizTotal: 10, emosi: "😊 Senang" },
-      { tanggal: "Kamis, 13 Mar 2026", topik: "Persamaan Linear", durasi: 2.0, quiz: 9, quizTotal: 10, emosi: "😊 Senang" },
-      { tanggal: "Rabu, 12 Mar 2026", topik: "Aljabar Dasar", durasi: 2.2, quiz: 10, quizTotal: 10, emosi: "😊 Senang" },
+      { tanggal: "Senin, 16 Mar 2026", topik: "Statistika", durasi: 3.0, quiz: 10, quizTotal: 10, emosi: "🟢 Engagement" },
+      { tanggal: "Jumat, 14 Mar 2026", topik: "Fungsi Kuadrat", durasi: 2.5, quiz: 10, quizTotal: 10, emosi: "🟢 Engagement" },
+      { tanggal: "Kamis, 13 Mar 2026", topik: "Persamaan Linear", durasi: 2.0, quiz: 9, quizTotal: 10, emosi: "🟢 Engagement" },
+      { tanggal: "Rabu, 12 Mar 2026", topik: "Aljabar Dasar", durasi: 2.2, quiz: 10, quizTotal: 10, emosi: "🟢 Engagement" },
     ]
   },
   {
-    id: 5, name: "Bagas Firmansyah", avatar: "BF", avatarBg: C.green, emotion: "😐 Netral", emotionKey: "netral",
+    id: "s5", name: "Bagas Firmansyah", avatar: "BF", avatarBg: C.green, emotion: "😴 Boredom", emotionKey: "boredom",
     status: "Normal", lastActive: "Hari ini 11:20",
     todayActive: true, todayStudyHours: 1.0, todayQuizScore: 7, todayQuizTotal: 10, todayTopik: "Persamaan Linear",
-    chatProgress: { mat: 60, ipa: 55, bin: 70, ips: 65 }, quizScores: { mat: [65, 70], ipa: [55, 60], bin: [70], ips: [60] }, sessions: 12,
     riwayat: [
-      { tanggal: "Senin, 16 Mar 2026", topik: "Persamaan Linear", durasi: 1.0, quiz: 7, quizTotal: 10, emosi: "😐 Netral" },
-      { tanggal: "Jumat, 14 Mar 2026", topik: "Statistika", durasi: 1.5, quiz: 6, quizTotal: 10, emosi: "😐 Netral" },
-      { tanggal: "Rabu, 12 Mar 2026", topik: "Aljabar Dasar", durasi: 1.3, quiz: 7, quizTotal: 10, emosi: "😊 Senang" },
+      { tanggal: "Senin, 16 Mar 2026", topik: "Persamaan Linear", durasi: 1.0, quiz: 7, quizTotal: 10, emosi: "😴 Boredom" },
+      { tanggal: "Jumat, 14 Mar 2026", topik: "Statistika", durasi: 1.5, quiz: 6, quizTotal: 10, emosi: "😴 Boredom" },
+      { tanggal: "Rabu, 12 Mar 2026", topik: "Aljabar Dasar", durasi: 1.3, quiz: 7, quizTotal: 10, emosi: "🟢 Engagement" },
     ]
   },
   {
-    id: 6, name: "Lina Kartika", avatar: "LK", avatarBg: "#B7791F", emotion: "😵 Bingung", emotionKey: "bingung",
-    status: "Perhatian", lastActive: "1 hari lalu",
-    todayActive: false, todayStudyHours: null, todayQuizScore: null, todayQuizTotal: null, todayTopik: null,
-    chatProgress: { mat: 40, ipa: 30, bin: 50, ips: 42 }, quizScores: { mat: [45, 40], ipa: [35], bin: [55], ips: [40] }, sessions: 7,
+    id: "s6", name: "Lina Kartika", avatar: "LK", avatarBg: "#B7791F", emotion: "😵 Confusion", emotionKey: "confusion",
+    status: "Normal", lastActive: "Hari ini 12:30",
+    todayActive: true, todayStudyHours: 0.5, todayQuizScore: 6, todayQuizTotal: 10, todayTopik: "Persamaan Linear",
     riwayat: [
-      { tanggal: "Minggu, 15 Mar 2026", topik: "Statistika", durasi: 0.8, quiz: 4, quizTotal: 10, emosi: "😵 Bingung" },
-      { tanggal: "Jumat, 13 Mar 2026", topik: "Persamaan Linear", durasi: 1.0, quiz: 5, quizTotal: 10, emosi: "😵 Bingung" },
+      { tanggal: "Minggu, 15 Mar 2026", topik: "Statistika", durasi: 0.8, quiz: 4, quizTotal: 10, emosi: "😵 Confusion" },
+      { tanggal: "Jumat, 13 Mar 2026", topik: "Persamaan Linear", durasi: 1.0, quiz: 5, quizTotal: 10, emosi: "😵 Confusion" },
     ]
   },
 ]
 
+
 // ─── Admin seed data ────────────────────────────────────────────────
-export const ADMIN_MAPEL_LIST = [
-  { id: "mat", label: "Matematika", icon: "📐", color: "#0D5C63" },
-  { id: "ipa", label: "IPA", icon: "🔬", color: "#DD6B20" },
-  { id: "bin", label: "B. Indonesia", icon: "📖", color: "#6B46C1" },
-  { id: "ips", label: "IPS", icon: "🌍", color: "#2F855A" },
-  { id: "eng", label: "B. Inggris", icon: "🌐", color: "#2B6CB0" },
-  { id: "pjok", label: "PJOK", icon: "⚽", color: "#C05621" },
-  { id: "seni", label: "Seni Budaya", icon: "🎨", color: "#B7791F" },
-  { id: "ppkn", label: "PPKn", icon: "🇮🇩", color: "#9B2C2C" },
-]
 
 export const ADMIN_GURU_INIT = [
   {
@@ -110,7 +161,7 @@ export const ADMIN_GURU_INIT = [
   },
   {
     id: "g2", nama: "Sri Dewi, S.Pd.", nip: "197911222005012003", email: "dewi@sr-malang.sch.id",
-    mapelIds: ["ipa"], kelasIds: ["k1", "k4"], bergabung: "Januari 2021", avatar: "SD",
+    mapelIds: ["fis", "kim", "bio"], kelasIds: ["k1", "k4"], bergabung: "Januari 2021", avatar: "SD",
     avatarBg: `linear-gradient(135deg,#F4A435,#DD6B20)`
   },
   {
@@ -120,7 +171,7 @@ export const ADMIN_GURU_INIT = [
   },
   {
     id: "g4", nama: "Bpk. Yoga, S.Pd.", nip: "199001152015011002", email: "yoga@sr-malang.sch.id",
-    mapelIds: ["ips"], kelasIds: ["k2", "k3"], bergabung: "Agustus 2023", avatar: "BY",
+    mapelIds: ["geo", "eko", "sos"], kelasIds: ["k2", "k3"], bergabung: "Agustus 2023", avatar: "BY",
     avatarBg: `linear-gradient(135deg,#2F855A,#48BB78)`
   },
   {
@@ -140,7 +191,7 @@ export const ADMIN_GURU_INIT = [
   },
   {
     id: "g8", nama: "Bpk. Dedi, S.Pd.", nip: "198109152009011007", email: "dedi@sr-malang.sch.id",
-    mapelIds: ["ppkn", "ips"], kelasIds: ["k1", "k2"], bergabung: "Agustus 2020", avatar: "BD",
+    mapelIds: ["ppkn", "geo"], kelasIds: ["k1", "k2"], bergabung: "Agustus 2020", avatar: "BD",
     avatarBg: `linear-gradient(135deg,#9B2C2C,#C53030)`
   },
 ]
@@ -148,22 +199,22 @@ export const ADMIN_GURU_INIT = [
 export const ADMIN_KELAS_INIT = [
   {
     id: "k1", nama: "Kelas X IPA 1", tingkat: "X", jurusan: "IPA", waliKelasId: "g2",
-    mapelGuruMap: { mat: "g1", ipa: "g2", bin: "g3", eng: "g5", pjok: "g6", ppkn: "g8" },
-    tahunAjaran: "2025/2026", siswaIds: ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8"]
+    mapelGuruMap: { mat: "g1", fis: "g2", kim: "g2", bio: "g2", bin: "g3", eng: "g5", pjok: "g6", ppkn: "g8" },
+    tahunAjaran: "2025/2026", siswaIds: ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9"]
   },
   {
     id: "k2", nama: "Kelas X IPS 1", tingkat: "X", jurusan: "IPS", waliKelasId: "g4",
-    mapelGuruMap: { mat: "g1", bin: "g3", ips: "g4", eng: "g5", seni: "g7", ppkn: "g8" },
-    tahunAjaran: "2025/2026", siswaIds: ["s9", "s10", "s11", "s12", "s13", "s14"]
+    mapelGuruMap: { mat: "g1", bin: "g3", geo: "g4", eko: "g4", sos: "g4", eng: "g5", seni: "g7", ppkn: "g8" },
+    tahunAjaran: "2025/2026", siswaIds: ["s10", "s11", "s12", "s13", "s14"]
   },
   {
     id: "k3", nama: "Kelas XI IPA 1", tingkat: "XI", jurusan: "IPA", waliKelasId: "g1",
-    mapelGuruMap: { mat: "g1", ipa: "g2", bin: "g3", ips: "g4", eng: "g5", seni: "g7" },
+    mapelGuruMap: { mat: "g1", fis: "g2", kim: "g2", bio: "g2", bin: "g3", eng: "g5", seni: "g7" },
     tahunAjaran: "2025/2026", siswaIds: ["s15", "s16", "s17", "s18", "s19", "s20", "s21"]
   },
   {
     id: "k4", nama: "Kelas XI IPS 2", tingkat: "XI", jurusan: "IPS", waliKelasId: "g3",
-    mapelGuruMap: { mat: "g1", ipa: "g2", bin: "g3", eng: "g5", pjok: "g6" },
+    mapelGuruMap: { mat: "g1", bin: "g3", geo: "g4", eko: "g4", eng: "g5", pjok: "g6" },
     tahunAjaran: "2025/2026", siswaIds: ["s22", "s23", "s24", "s25", "s26"]
   },
 ]
@@ -177,7 +228,7 @@ export const ADMIN_SISWA_INIT = [
   { id: "s6", nama: "Lina Kartika", nis: "2025006", email: "lina@siswa.sr", kelasId: "k1", bergabung: "Jul 2025", lastLogin: "1 hari lalu", avatar: "LK", avatarBg: "#B7791F" },
   { id: "s7", nama: "Dino Prasetyo", nis: "2025007", email: "dino@siswa.sr", kelasId: "k1", bergabung: "Jul 2025", lastLogin: "2 hari lalu", avatar: "DP", avatarBg: "#2B6CB0" },
   { id: "s8", nama: "Ayu Maharani", nis: "2025008", email: "ayu@siswa.sr", kelasId: "k1", bergabung: "Jul 2025", lastLogin: "5 hari lalu", avatar: "AM", avatarBg: "#D53F8C" },
-  { id: "s9", nama: "Budi Santoso", nis: "2025009", email: "budi@siswa.sr", kelasId: "k2", bergabung: "Jul 2025", lastLogin: "Hari ini", avatar: "BS", avatarBg: "#0D5C63" },
+  { id: "s9", nama: "Budi Santoso", nis: "2025009", email: "budi@siswa.sr", kelasId: "k1", bergabung: "Jul 2025", lastLogin: "Hari ini", avatar: "BS", avatarBg: "#0D5C63" },
   { id: "s10", nama: "Citra Dewi", nis: "2025010", email: "citra@siswa.sr", kelasId: "k2", bergabung: "Jul 2025", lastLogin: "1 hari lalu", avatar: "CD", avatarBg: "#9B2C2C" },
   { id: "s11", nama: "Fajar Nugroho", nis: "2025011", email: "fajar@siswa.sr", kelasId: "k2", bergabung: "Jul 2025", lastLogin: "3 hari lalu", avatar: "FN", avatarBg: "#2F855A" },
   { id: "s12", nama: "Gilang Ramadhan", nis: "2025012", email: "gilang@siswa.sr", kelasId: "k2", bergabung: "Jul 2025", lastLogin: "Hari ini", avatar: "GR", avatarBg: "#DD6B20" },
@@ -205,19 +256,19 @@ export const RECOMMENDED_MATERIALS = [
     deskripsi: "Cara menyelesaikan persamaan satu variabel dengan langkah sistematis", tag: "⭐ Utama"
   },
   {
-    id: "rm2", mapelId: "ipa", mapelLabel: "IPA", mapelIcon: "🔬", mapelColor: "#DD6B20",
+    id: "rm2", mapelId: "bio", mapelLabel: "Biologi", mapelIcon: "🧬", mapelColor: "#38A169",
     subMateri: "Ekosistem", topik: "Biologi Dasar",
     deskripsi: "Rantai makanan, jaring-jaring makanan, dan interaksi antar organisme", tag: "⭐ Utama"
   },
   {
-    id: "rm3", mapelId: "bin", mapelLabel: "B. Indonesia", mapelIcon: "📖", mapelColor: "#6B46C1",
-    subMateri: "Teks Argumentasi", topik: "Menulis Efektif",
-    deskripsi: "Struktur teks argumentasi: tesis, argumen, penegasan ulang", tag: "Topik Baru"
+    id: "rm3", mapelId: "fis", mapelLabel: "Fisika", mapelIcon: "⚛️", mapelColor: "#DD6B20",
+    subMateri: "Gerak Lurus", topik: "Fisika",
+    deskripsi: "Mempelajari konsep dasar gerak, perpindahan, kecepatan, dan percepatan.", tag: "⭐ Utama"
   },
   {
-    id: "rm4", mapelId: "ips", mapelLabel: "IPS", mapelIcon: "🌍", mapelColor: "#2F855A",
-    subMateri: "Kerajaan Nusantara", topik: "Sejarah Indonesia",
-    deskripsi: "Kerajaan-kerajaan besar di Nusantara dan pengaruhnya", tag: "Topik Baru"
+    id: "rm4", mapelId: "kim", mapelLabel: "Kimia", mapelIcon: "🧪", mapelColor: "#805AD5",
+    subMateri: "Sistem Periodik", topik: "Kimia Dasar",
+    deskripsi: "Mempelajari struktur zat, reaksi kimia alam kehidupan sehari-hari.", tag: "Topik Baru"
   },
   {
     id: "rm5", mapelId: "mat", mapelLabel: "Matematika", mapelIcon: "📐", mapelColor: "#0D5C63",
@@ -225,7 +276,7 @@ export const RECOMMENDED_MATERIALS = [
     deskripsi: "Mean, median, modus, dan penyajian data dalam grafik", tag: null
   },
   {
-    id: "rm6", mapelId: "ipa", mapelLabel: "IPA", mapelIcon: "🔬", mapelColor: "#DD6B20",
+    id: "rm6", mapelId: "bio", mapelLabel: "Biologi", mapelIcon: "🧬", mapelColor: "#38A169",
     subMateri: "Sel & Jaringan", topik: "Biologi",
     deskripsi: "Struktur sel, fungsi organel, dan jaringan pada makhluk hidup", tag: "Topik Baru"
   },
@@ -234,22 +285,20 @@ export const RECOMMENDED_MATERIALS = [
 export const PROGRESS_DATA_INIT = {
   belumSelesai: [
     { id: "p1", mapelId: "mat", mapelLabel: "Matematika", mapelIcon: "📐", mapelColor: "#0D5C63", subMateri: "Fungsi Kuadrat", topik: "Aljabar Lanjut", progress: 40, lastChat: "1 jam lalu", confDone: ["mindmap"], quizDone: false, quizScore: null },
-    { id: "p2", mapelId: "ipa", mapelLabel: "IPA", mapelIcon: "🔬", mapelColor: "#DD6B20", subMateri: "Gerak Lurus", topik: "Fisika", progress: 20, lastChat: "2 hari lalu", confDone: [], quizDone: false, quizScore: null },
+    { id: "p2", mapelId: "fis", mapelLabel: "Fisika", mapelIcon: "⚛️", mapelColor: "#DD6B20", subMateri: "Hukum Newton", topik: "Fisika", progress: 20, lastChat: "2 hari lalu", confDone: [], quizDone: false, quizScore: null },
     { id: "p3", mapelId: "bin", mapelLabel: "B. Indonesia", mapelIcon: "📖", mapelColor: "#6B46C1", subMateri: "Teks Argumentasi", topik: "Menulis Efektif", progress: 65, lastChat: "Kemarin", confDone: ["flashcard", "markdown"], quizDone: false, quizScore: null },
-    { id: "p4", mapelId: "ips", mapelLabel: "IPS", mapelIcon: "🌍", mapelColor: "#2F855A", subMateri: "Ekonomi Dasar", topik: "Ekonomi", progress: 30, lastChat: "3 hari lalu", confDone: ["mindmap"], quizDone: false, quizScore: null },
+    { id: "p4", mapelId: "eng", mapelLabel: "B. Inggris", mapelIcon: "🌐", mapelColor: "#3182CE", subMateri: "Introduction", topik: "English", progress: 30, lastChat: "3 hari lalu", confDone: ["mindmap"], quizDone: false, quizScore: null },
   ],
   sudahSelesai: [
-    { id: "p5", mapelId: "mat", mapelLabel: "Matematika", mapelIcon: "📐", mapelColor: "#0D5C63", subMateri: "Persamaan Linear", topik: "Aljabar", progress: 100, lastChat: "Hari ini", confDone: ["mindmap", "flashcard", "markdown"], quizDone: true, quizScore: 80 },
     { id: "p6", mapelId: "mat", mapelLabel: "Matematika", mapelIcon: "📐", mapelColor: "#0D5C63", subMateri: "Aljabar Dasar", topik: "Aljabar", progress: 100, lastChat: "Kemarin", confDone: ["mindmap", "flashcard"], quizDone: true, quizScore: 70 },
-    { id: "p7", mapelId: "ipa", mapelLabel: "IPA", mapelIcon: "🔬", mapelColor: "#DD6B20", subMateri: "Ekosistem", topik: "Biologi Dasar", progress: 100, lastChat: "2 hari lalu", confDone: ["flashcard"], quizDone: true, quizScore: 90 },
   ],
 }
 
 export const GAMES_DATA = [
-  { id: "g1", nama: "Algebraic Quest", mapelId: "mat", mapelLabel: "Matematika", icon: "⚔️", deskripsi: "RPG berbasis soal aljabar. Kalahkan musuh dengan menjawab soal!", skorSiswa: 870, bestSkor: 1200, pemain: 24, color: "#0D5C63", bg: "#D4F0F3", buatan: "Guru" },
-  { id: "g2", nama: "EcoWorld Explorer", mapelId: "ipa", mapelLabel: "IPA", icon: "🌿", deskripsi: "Jelajahi ekosistem virtual dan pelajari rantai makanan.", skorSiswa: 450, bestSkor: 800, pemain: 18, color: "#2F855A", bg: "#C6F6D5", buatan: "Guru" },
-  { id: "g3", nama: "Word Battle", mapelId: "bin", mapelLabel: "B. Indonesia", icon: "📝", deskripsi: "Battle teks — tulis argumen terbaik untuk mengalahkan lawan.", skorSiswa: 320, bestSkor: 560, pemain: 12, color: "#6B46C1", bg: "#E9D8FD", buatan: "Sistem" },
-  { id: "g4", nama: "History Map", mapelId: "ips", mapelLabel: "IPS", icon: "🗺️", deskripsi: "Tempatkan kerajaan di peta dan jawab soal sejarah.", skorSiswa: 210, bestSkor: 400, pemain: 20, color: "#DD6B20", bg: "#FEEBC8", buatan: "Guru" },
+  { id: "g1", nama: "Algebraic Quest", mapelId: "mat", mapelLabel: "Matematika", icon: "⚔️", deskripsi: "RPG berbasis soal aljabar. Kalahkan musuh dengan menjawab soal!", skorSiswa: 870, bestSkor: 1200, pemain: 24, color: "#0D5C63", bg: "#D4F0F3" },
+  { id: "g2", nama: "EcoWorld Explorer", mapelId: "bio", mapelLabel: "Biologi", icon: "🌿", deskripsi: "Jelajahi ekosistem virtual dan pelajari rantai makanan.", skorSiswa: 450, bestSkor: 800, pemain: 18, color: "#2F855A", bg: "#C6F6D5" },
+  { id: "g3", nama: "Word Battle", mapelId: "bin", mapelLabel: "B. Indonesia", icon: "📝", deskripsi: "Battle teks — tulis argumen terbaik untuk mengalahkan lawan.", skorSiswa: 320, bestSkor: 560, pemain: 12, color: "#6B46C1", bg: "#E9D8FD" },
+  { id: "g4", nama: "History Map", mapelId: "geo", mapelLabel: "Geografi", icon: "🗺️", deskripsi: "Tempatkan kerajaan di peta dan jawab soal sejarah.", skorSiswa: 210, bestSkor: 400, pemain: 20, color: "#DD6B20", bg: "#FEEBC8" },
 ]
 
 // ─── Pretest Topic-Level Questions ─────────────────────────────────
@@ -281,7 +330,8 @@ export const PRETEST_QUESTIONS = {
       jawaban: 1,
     },
   ],
-  ipa: [
+  // Biologi (IPA)
+  bio: [
     {
       subMateri: 'Ekosistem',
       soal: 'Organisme yang membuat makanan sendiri disebut ...',
@@ -294,6 +344,9 @@ export const PRETEST_QUESTIONS = {
       pilihan: ['Ribosom', 'Mitokondria', 'Nukleus', 'Vakuola'],
       jawaban: 1,
     },
+  ],
+  // Fisika (IPA)
+  fis: [
     {
       subMateri: 'Gerak Lurus',
       soal: 'Kecepatan rata-rata dihitung dengan rumus ...',
@@ -302,7 +355,7 @@ export const PRETEST_QUESTIONS = {
     },
     {
       subMateri: 'Energi & Kalor',
-      soal: 'Perpindahan kalor melalui zat padat disebut ...',
+      soal: 'Perpindahan kalor melalui zat patat disebut ...',
       pilihan: ['Konveksi', 'Radiasi', 'Konduksi', 'Evaporasi'],
       jawaban: 2,
     },
@@ -359,6 +412,47 @@ export const PRETEST_QUESTIONS = {
       jawaban: 1,
     },
   ],
+  // Kimia (IPA)
+  kim: [
+    {
+      subMateri: 'Struktur Atom',
+      soal: 'Partikel bermuatan negatif dalam atom disebut ...',
+      pilihan: ['Proton', 'Neutron', 'Elektron', 'Nukleon'],
+      jawaban: 2,
+    },
+    {
+      subMateri: 'Sistem Periodik',
+      soal: 'Unsur dengan nomor atom 6 adalah ...',
+      pilihan: ['Oksigen', 'Nitrogen', 'Karbon', 'Helium'],
+      jawaban: 2,
+    },
+    {
+      subMateri: 'Reaksi Kimia',
+      soal: 'Reaksi yang menyerap energi dari lingkungan disebut ...',
+      pilihan: ['Eksoterm', 'Endoterm', 'Netral', 'Katalis'],
+      jawaban: 1,
+    },
+  ],
+  // B. Inggris (Umum)
+  eng: [
+    {
+      subMateri: 'Reading Comprehension',
+      soal: 'The word "benevolent" most closely means ...',
+      pilihan: ['Harmful', 'Kind-hearted', 'Angry', 'Confused'],
+      jawaban: 1,
+    },
+    {
+      subMateri: 'Grammar Essentials',
+      soal: 'Choose the correct sentence:',
+      pilihan: [
+        'She don\'t like apples.',
+        'She doesn\'t likes apples.',
+        'She doesn\'t like apples.',
+        'She not like apples.',
+      ],
+      jawaban: 2,
+    },
+  ],
 }
 
 // ─── Pretest / Interest Profiling ──────────────────────────────────
@@ -408,20 +502,19 @@ export const SEKOLAH_LIST = [
 ]
 
 export const KELAS_SMA = [
-  "X IPA 1", "X IPA 2", "X IPS 1", "X IPS 2",
-  "XI IPA 1", "XI IPA 2", "XI IPS 1", "XII IPA 1", "XII IPS 1",
+  "X IPA 1", "X IPA 2", "X IPS 1", "X IPS 2", ,
 ]
 
 export const SEARCH_TOPICS = [
   { mapelId: "mat", mapelLabel: "Matematika", mapelIcon: "📐", mapelColor: "#0D5C63", subMateri: "Turunan Fungsi", topik: "Kalkulus" },
   { mapelId: "mat", mapelLabel: "Matematika", mapelIcon: "📐", mapelColor: "#0D5C63", subMateri: "Trigonometri", topik: "Geometri" },
   { mapelId: "mat", mapelLabel: "Matematika", mapelIcon: "📐", mapelColor: "#0D5C63", subMateri: "Logaritma", topik: "Aljabar" },
-  { mapelId: "ipa", mapelLabel: "IPA", mapelIcon: "🔬", mapelColor: "#DD6B20", subMateri: "Energi & Kalor", topik: "Fisika" },
-  { mapelId: "ipa", mapelLabel: "IPA", mapelIcon: "🔬", mapelColor: "#DD6B20", subMateri: "Sistem Periodik", topik: "Kimia" },
+  { mapelId: "fis", mapelLabel: "Fisika", mapelIcon: "⚛️", mapelColor: "#DD6B20", subMateri: "Energi & Kalor", topik: "Fisika" },
+  { mapelId: "kim", mapelLabel: "Kimia", mapelIcon: "🧪", mapelColor: "#805AD5", subMateri: "Sistem Periodik", topik: "Kimia" },
   { mapelId: "bin", mapelLabel: "B. Indonesia", mapelIcon: "📖", mapelColor: "#6B46C1", subMateri: "Puisi", topik: "Sastra" },
   { mapelId: "bin", mapelLabel: "B. Indonesia", mapelIcon: "📖", mapelColor: "#6B46C1", subMateri: "Surat Dinas", topik: "Formal" },
-  { mapelId: "ips", mapelLabel: "IPS", mapelIcon: "🌍", mapelColor: "#2F855A", subMateri: "Geografi Fisik", topik: "Geografi" },
-  { mapelId: "ips", mapelLabel: "IPS", mapelIcon: "🌍", mapelColor: "#2F855A", subMateri: "Perdagangan Internasional", topik: "Ekonomi" },
+  { mapelId: "geo", mapelLabel: "Geografi", mapelIcon: "🗺️", mapelColor: "#2B6CB0", subMateri: "Geografi Fisik", topik: "Geografi" },
+  { mapelId: "eko", mapelLabel: "Ekonomi", mapelIcon: "💰", mapelColor: "#D69E2E", subMateri: "Perdagangan Internasional", topik: "Ekonomi" },
 ]
 
 export const CONF_TYPES = [
@@ -432,13 +525,13 @@ export const CONF_TYPES = [
 
 export const CONF_CONTENT_INIT = {
   "mat__Persamaan Linear": {
-    mindmap: { generated: true, ts: "Hari ini 14:35", content: "📐 PERSAMAAN LINEAR\n├─ Bentuk: ax + b = c\n└─ Cara: pindah konstanta, bagi koefisien" },
+    mindmap: { generated: false, ts: "Hari ini 14:35", content: "📐 PERSAMAAN LINEAR\n├─ Bentuk: ax + b = c\n└─ Cara: pindah konstanta, bagi koefisien" },
     flashcard: {
-      generated: true, ts: "Hari ini 14:40", cards: [
+      generated: false, ts: "Hari ini 14:40", cards: [
         { depan: "Apa itu Persamaan Linear?", belakang: "Persamaan berderajat satu, bentuk ax + b = c" },
       ]
     },
-    markdown: { generated: true, ts: "Hari ini 14:45", content: "# Persamaan Linear\n\n## Langkah\n1. Pindahkan konstanta\n2. Bagi koefisien variabel" },
+    markdown: { generated: false, ts: "Hari ini 14:45", content: "# Persamaan Linear\n\n## Langkah\n1. Pindahkan konstanta\n2. Bagi koefisien variabel" },
   },
 }
 

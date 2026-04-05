@@ -16,19 +16,19 @@ const CAPTURE_INTERVAL_MS = 5000; // kirim frame setiap 5 detik
 const USE_REAL_API = import.meta.env.VITE_EMOTION_API === "true";
 
 // Dummy emosi siklus untuk Fase 2 (sebelum Tim 1 selesai)
-const DUMMY_EMOTIONS = ["senang", "netral", "netral", "bingung", "senang"];
+const DUMMY_EMOTIONS = ["engagement", "boredom", "confusion", "frustration", "engagement"];
 let dummyEmoIdx = 0;
 
 export function useWebcamEmotion(siswaId) {
-  const [permitted,   setPermitted]   = useState(false);
-  const [emosi,       setEmosi]       = useState(null);
-  const [confidence,  setConfidence]  = useState(null);
+  const [permitted, setPermitted] = useState(false);
+  const [emosi, setEmosi] = useState(null);
+  const [confidence, setConfidence] = useState(null);
   const [isCapturing, setIsCapturing] = useState(false);
 
-  const streamRef    = useRef(null);
-  const intervalRef  = useRef(null);
-  const videoRef     = useRef(null); // <video> element untuk preview (opsional)
-  const canvasRef    = useRef(document.createElement("canvas"));
+  const streamRef = useRef(null);
+  const intervalRef = useRef(null);
+  const videoRef = useRef(null); // <video> element untuk preview (opsional)
+  const canvasRef = useRef(document.createElement("canvas"));
 
   // ── Request izin kamera ───────────────────────────────────────────
   const requestPermission = useCallback(async () => {
@@ -49,11 +49,11 @@ export function useWebcamEmotion(siswaId) {
 
   // ── Capture satu frame → base64 JPEG ─────────────────────────────
   const captureFrame = useCallback(() => {
-    const video  = videoRef.current;
+    const video = videoRef.current;
     const canvas = canvasRef.current;
     if (!video || !permitted) return null;
 
-    canvas.width  = 224; // resize ke ukuran model Tim 1
+    canvas.width = 224; // resize ke ukuran model Tim 1
     canvas.height = 224;
     canvas.getContext("2d").drawImage(video, 0, 0, 224, 224);
     return canvas.toDataURL("image/jpeg", 0.8).split(",")[1]; // base64 tanpa prefix

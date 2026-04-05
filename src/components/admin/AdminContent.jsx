@@ -14,7 +14,7 @@ import { useAdmin } from '../../context/AdminContext';
 import { Btn, Avatar, Card, ProgressBar, Spinner, StatusBadge } from '../shared/UI';
 import { C } from '../../styles/tokens';
 import {
-  ADMIN_MAPEL_LIST, ADMIN_GURU_INIT, ADMIN_KELAS_INIT, ADMIN_SISWA_INIT,
+  ADMIN_KELAS_INIT,
 } from '../../data/masterData';
 
 // ═══════════════════════════════════════════════════════════════════

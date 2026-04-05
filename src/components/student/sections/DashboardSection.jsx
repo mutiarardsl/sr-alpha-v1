@@ -13,21 +13,21 @@ import { Card } from '../../shared/UI';
 /* ── Fallback rekomendasi jika belum ada pretestResult ──────────────────── */
 const REKOM_DEFAULT = [
   {
-    mapelId: 'mat', mapelLabel: 'Matematika', mapelIcon: '📐', mapelColor: C.teal,
+    id: "rm1", mapelId: 'mat', mapelLabel: 'Matematika', mapelIcon: '📐', mapelColor: C.teal,
     subMateri: 'Persamaan Linear',
     alasan: 'Topik fundamental Matematika yang sering jadi dasar materi lanjutan.',
     tag: '⭐ Disarankan',
   },
   {
-    mapelId: 'ipa', mapelLabel: 'IPA', mapelIcon: '🔬', mapelColor: C.orange,
-    subMateri: 'Ekosistem',
-    alasan: 'Konsep dasar IPA yang penting dipahami sebelum topik lanjutan.',
+    id: "rm3", mapelId: 'fis', mapelLabel: 'Fisika', mapelIcon: '⚛️', mapelColor: C.orange,
+    subMateri: 'Gerak Lurus',
+    alasan: 'Konsep dasar Fisika — kecepatan, percepatan, dan gerak yang wajib dipahami.',
     tag: '⭐ Disarankan',
   },
   {
-    mapelId: 'bin', mapelLabel: 'B. Indonesia', mapelIcon: '📖', mapelColor: C.purple,
-    subMateri: 'Teks Argumentasi',
-    alasan: 'Skill menulis argumentasi sangat penting untuk ujian dan kehidupan.',
+    id: "rm2", mapelId: 'bio', mapelLabel: 'Biologi', mapelIcon: '🧬', mapelColor: C.green,
+    subMateri: 'Ekosistem',
+    alasan: 'Memahami interaksi makhluk hidup dan rantai makanan dalam ekosistem.',
     tag: '⭐ Disarankan',
   },
 ];
@@ -135,10 +135,10 @@ const DashboardSection = ({ progressData, setActivePage, openChatWithWebcam, rec
 
   /* Dummy recent activity jika belum ada */
   const activity = recentActivity.length > 0 ? recentActivity : [
-    { mapelLabel: 'Matematika', mapelIcon: '📐', mapelColor: C.teal, topik: 'Persamaan Linear', durasi: 25, quizScore10: 8, date: 'Hari ini 14:35' },
+    /*{ mapelLabel: 'Matematika', mapelIcon: '📐', mapelColor: C.teal, topik: 'Persamaan Linear', durasi: 25, quizScore10: 8, date: 'Hari ini 14:35' },
     { mapelLabel: 'IPA', mapelIcon: '🔬', mapelColor: C.orange, topik: 'Ekosistem', durasi: 18, quizScore10: 5, date: 'Kemarin 10:20' },
     { mapelLabel: 'B. Indonesia', mapelIcon: '📖', mapelColor: C.purple, topik: 'Teks Argumentasi', durasi: 32, quizScore10: 9, date: '2 hari lalu' },
-    { mapelLabel: 'Matematika', mapelIcon: '📐', mapelColor: C.teal, topik: 'Aljabar Dasar', durasi: 20, quizScore10: 6, date: '3 hari lalu' },
+    { mapelLabel: 'Matematika', mapelIcon: '📐', mapelColor: C.teal, topik: 'Aljabar Dasar', durasi: 20, quizScore10: 6, date: '3 hari lalu' },*/
   ];
 
   return (
@@ -268,7 +268,7 @@ const DashboardSection = ({ progressData, setActivePage, openChatWithWebcam, rec
           })}
           {activity.length === 0 && (
             <div style={{ padding: '24px', textAlign: 'center', fontSize: 12, color: C.slate }}>
-              Belum ada aktivitas. Mulai belajar dari rekomendasi di atas!
+              Belum ada aktivitas. Ayo mulai belajar!
             </div>
           )}
         </Card>

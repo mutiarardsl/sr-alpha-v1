@@ -92,7 +92,13 @@ export const Divider = () => (
 );
 
 // ── Emotion helpers ────────────────────────────────────────────────
-export const EmotionColor = { senang: C.green, netral: C.darkL, bingung: C.amber, sedih: C.red };
+// Emotion categories: engagement | boredom | confusion | frustration
+export const EmotionColor = {
+  engagement:  C.green,   // aktif & paham
+  boredom:     C.darkL,   // pasif / tidak tertarik
+  confusion:   C.amber,   // bingung / perlu bantuan
+  frustration: C.red,     // frustrasi / perlu intervensi
+};
 
 export const EmotionBadge = ({ emotion, emotionKey }) => (
   <span style={{

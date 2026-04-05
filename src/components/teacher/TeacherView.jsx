@@ -37,8 +37,8 @@ const TeacherView = () => {
   const [showChangePwd, setShowChangePwd] = useState(false);
   const [pwdToast, setPwdToast] = useState(false);
   const [nilaiUploads, setNilaiUploads] = useState([
-    { id: 'uv1', filename: 'nilai_uts_mat_x_ipa1.csv', tanggal: '10 Mar 2026', status: 'Selesai', siswa: 32, kelas: 'X IPA 1' },
-    { id: 'uv2', filename: 'nilai_harian_mat_xi_ipa2.xlsx', tanggal: '5 Mar 2026', status: 'Selesai', siswa: 28, kelas: 'XI IPA 2' },
+    /*{ id: 'uv1', filename: 'nilai_uts_mat_x_ipa1.csv', tanggal: '10 Mar 2026', status: 'Selesai', siswa: 32, kelas: 'X IPA 1' },
+    { id: 'uv2', filename: 'nilai_harian_mat_xi_ipa2.xlsx', tanggal: '5 Mar 2026', status: 'Selesai', siswa: 28, kelas: 'XI IPA 2' },*/
   ]);
   const [uploading, setUploading] = useState(false);
   const [gameForm, setGameForm] = useState({ mapel: '', topik: '', prompt: '', kelas: '' });
